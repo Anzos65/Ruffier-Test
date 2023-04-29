@@ -27,8 +27,9 @@ def toWin2():
 vline1.addWidget(label1, alignment = Qt.AlignLeft)
 vline1.addWidget(label2, alignment = Qt.AlignLeft)
 vline1.addWidget(start, alignment = Qt.AlignCenter)
+win1.setLayout(vline1)
 
-layout1.addLayout(hline1)
-layout1.addLayout(hline2)
-layout1.addLayout(hline3)
-win1.setLayout(layout1)
+start.clicked.connect(toWin2)
+
+win1.show()
+app.exec_()
