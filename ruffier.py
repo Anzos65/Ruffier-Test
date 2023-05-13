@@ -71,6 +71,15 @@ layout1.addLayout(vline2)
 layout1.addLayout(vline3)
 win2.setLayout(layout1)
 
+#Third window items
+label8 = QLabel("lorem ipsum dolor sit amet")
+label9 = QLabel("lorem ipsum dolor sit amet")
+vline4 = QVBoxLayout()
+
+vline4.addWidget(label8, alignment = Qt.AlignCenter)
+vline4.addWidget(label9, alignment = Qt.AlignCenter)
+win3.setLayout(vline4)
+
 
 start1.clicked.connect(toWin2)
 start2.clicked.connect(toWin3)
