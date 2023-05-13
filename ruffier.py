@@ -1,20 +1,20 @@
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QPushButton, QVBoxLayout, QHBoxLayout, QLineEdit
-from instr.py import *
+from instr import *
 
 app = QApplication([])
 
 win1= QWidget()
 win1.setWindowTitle("Ruffier Test")
-win1.setMinimumSize(win_x,win_y)
+win1.setMinimumSize(win_width, win_height)
 
 win2= QWidget()
 win2.setWindowTitle("Ruffier Test")
-win2.setMinimumSize(win_x,win_y)
+win2.setMinimumSize(win_width, win_height)
 
 win3= QWidget()
 win3.setWindowTitle("Ruffier Test")
-win3.setMinimumSize(win_x,win_y)
+win3.setMinimumSize(win_width, win_height)
 
 #First window items
 label1 = QLabel("lorem ipsum dolor sit amet")
