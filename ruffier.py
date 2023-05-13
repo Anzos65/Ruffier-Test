@@ -34,7 +34,7 @@ label3 = QLabel("Enter your full name:")
 line1 = QLineEdit("Full name")
 label4 = QLabel("Full years:")
 line2 = QLineEdit("0")
-label5 = QLabel("dgh hsuf ")
+label5 = QLabel("lorem ipsum dolor sit amet")
 but1 = QPushButton("Start the first test")
 line3 = QLineEdit("0")
 label6 = QLabel("lorem ipsum dolor sit amet")
@@ -70,6 +70,15 @@ vline2.addWidget(start2, alignment = Qt.AlignCenter)
 layout1.addLayout(vline2)
 layout1.addLayout(vline3)
 win2.setLayout(layout1)
+
+#Third window items
+label8 = QLabel("lorem ipsum dolor sit amet")
+label9 = QLabel("lorem ipsum dolor sit amet")
+vline4 = QVBoxLayout()
+
+vline4.addWidget(label8, alignment = Qt.AlignCenter)
+vline4.addWidget(label9, alignment = Qt.AlignCenter)
+win3.setLayout(vline4)
 
 
 start1.clicked.connect(toWin2)
