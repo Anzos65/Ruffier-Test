@@ -1,6 +1,7 @@
 from PyQt5.QtCore import Qt, QTimer, QTime
 from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QPushButton, QVBoxLayout, QHBoxLayout, QLineEdit 
 from instr import *
+from func2 import check
 
 app = QApplication([])
 
@@ -60,6 +61,7 @@ start2 = QPushButton(txt_sendresults)
 def toWin3():
     win2.hide()
     win3.show()
+    check(line2, line3, line4, line5)
 
 vline2 = QVBoxLayout()
 vline3 = QVBoxLayout()
