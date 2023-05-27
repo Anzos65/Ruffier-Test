@@ -86,8 +86,6 @@ layout1.addLayout(vline2)
 layout1.addLayout(vline3)
 win2.setLayout(layout1)
 
-
-
 #Third window items
 label8 = QLabel(txt_index)
 label9 = QLabel(txt_workheart)
