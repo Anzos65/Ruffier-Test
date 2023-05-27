@@ -11,4 +11,4 @@ def check(line2, line3, line4, line5):
     hr1=line3.text()
     hr2=line4.text()
     hr3=line5.text()
-    print(age, hr1, hr2, hr3)
+    return [age, hr1, hr2, hr3]
