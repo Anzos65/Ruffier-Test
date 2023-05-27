@@ -61,7 +61,8 @@ start2 = QPushButton(txt_sendresults)
 def toWin3():
     win2.hide()
     win3.show()
-    check(line2, line3, line4, line5)
+    values = check(line2, line3, line4, line5)
+    print(values[3])
 
 vline2 = QVBoxLayout()
 vline3 = QVBoxLayout()
