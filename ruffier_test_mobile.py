@@ -6,6 +6,7 @@ from kivy.uix.button import Button
 from kivy.uix.textinput import TextInput
 
 from instructions import txt_instruction, txt_test1, txt_test2, txt_test3, txt_sits
+from seconds import Seconds
 
 age = '7'
 name = ''
@@ -68,6 +69,9 @@ class InstructionsScreen(Screen):
 class SecondScreen(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.next_screen = False
+        self.lbl_sec = Seconds(15)
+        self.lbl_sec.bind(done=self.sec_finished)
 
         instructionsLbl = Label(text = txt_test1)
         self.nextButton = Button(text = 'Next', size_hint = (0.3, 0.2), pos_hint = {'center_x':0.5})
@@ -82,19 +86,30 @@ class SecondScreen(Screen):
 
         mainLayout = BoxLayout(orientation = 'vertical', padding = 8, spacing = 8)
         mainLayout.add_widget(instructionsLbl)
+        mainLayout.add_widget(self.lbl_sec)
         mainLayout.add_widget(resultLayout)
         mainLayout.add_widget(self.nextButton)
 
         self.add_widget(mainLayout)
 
+    def sec_finished(self, *args):
+        self.next_screen = True
+        self.resultInput.set_disabled(False)
+        self.nextButton.set_disabled(False)
+        self.nextButton.text = "Continue"
+
     def next(self):
-        global p1
-        p1 = check_int(self.resultInput.text)
-        if p1 == False or p1 <= 0:
-            p1 = 0
-            self.resultInput.text = str(p1)
+        if not self.next_screen:
+            self.nextButton.set_disabled(True)
+            self.lbl_sec.start()
         else:
-            self.manager.current = 'Screen 3'
+            global p1
+            p1 = check_int(self.resultInput.text)
+            if p1 == False or p1 <= 0:
+                p1 = 0
+                self.resultInput.text = str(p1)
+            else:
+                self.manager.current = 'Screen 3'
 
 
 
