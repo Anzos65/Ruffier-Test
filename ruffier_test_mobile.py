@@ -1,5 +1,3 @@
-
-
 from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.boxlayout import BoxLayout
@@ -11,7 +9,16 @@ from instructions import txt_instruction, txt_test1, txt_test2, txt_test3, txt_s
 
 age = '7'
 name = ''
+p1 = ''
+p2 = ''
+p3 = ''
 
+
+def check_int(str_num):
+    try:
+        return int(str_num)
+    except:
+        return False
 
 class InstructionsScreen(Screen):
     def __init__(self, **kwargs):
@@ -50,8 +57,12 @@ class InstructionsScreen(Screen):
         global name
         global age
         name = self.nameInput.text
-        age = self.ageInput.text
-        self.manager.current = 'Screen 2'
+        age = check_int(self.ageInput.text)
+        if age == False or age < 7:
+            age = 7
+            self.ageInput.text = str(age)
+        else:
+            self.manager.current = 'Screen 2'
 
 
 class SecondScreen(Screen):
@@ -63,11 +74,11 @@ class SecondScreen(Screen):
         self.nextButton.on_press = self.next
 
         resultLabel = Label(text = 'Enter the result:', halign = 'right')
-        resultInput = TextInput(multiline = False)
+        self.resultInput = TextInput(multiline = False)
 
         resultLayout = BoxLayout(size_hint=(0.8, None), height = '30sp')
         resultLayout.add_widget(resultLabel)
-        resultLayout.add_widget(resultInput)
+        resultLayout.add_widget(self.resultInput)
 
         mainLayout = BoxLayout(orientation = 'vertical', padding = 8, spacing = 8)
         mainLayout.add_widget(instructionsLbl)
@@ -77,7 +88,13 @@ class SecondScreen(Screen):
         self.add_widget(mainLayout)
 
     def next(self):
-        self.manager.current = 'Screen 3'
+        global p1
+        p1 = check_int(self.resultInput.text)
+        if p1 == False or p1 <= 0:
+            p1 = 0
+            self.resultInput.text = str(p1)
+        else:
+            self.manager.current = 'Screen 3'
 
 
 
@@ -108,20 +125,20 @@ class FourthScreen(Screen):
         self.nextButton.on_press = self.next
 
         resultLabel = Label(text = 'Result:', halign = 'right')
-        resultInput = TextInput(multiline = False)
+        self.resultInput = TextInput(multiline = False)
 
         result2Label = Label(text = 'Result after rest:', halign = 'right')
-        result2Input = TextInput(multiline = False)
+        self.result2Input = TextInput(multiline = False)
 
         mainLayout = BoxLayout(orientation = 'vertical', padding = 8, spacing = 8)
         resultLayout = BoxLayout(size_hint=(0.8, None), height = '30sp')
         result2Layout = BoxLayout(size_hint=(0.8, None), height = '30sp')
 
         resultLayout.add_widget(resultLabel)
-        resultLayout.add_widget(resultInput)
+        resultLayout.add_widget(self.resultInput)
 
         result2Layout.add_widget(result2Label)
-        result2Layout.add_widget(result2Input)
+        result2Layout.add_widget(self.result2Input)
 
         mainLayout.add_widget(instructionsLbl)
         mainLayout.add_widget(resultLayout)
@@ -131,7 +148,20 @@ class FourthScreen(Screen):
         self.add_widget(mainLayout)
     
     def next(self):
-        self.manager.current = 'Screen 5'
+        global p2
+        global p3
+
+        p2 = check_int(self.resultInput.text)
+        p3 = check_int(self.result2Input.text)
+
+        if p2 == False or p3 == False or p2 <= 0 or p3 <= 0:
+            p2 = 0
+            self.resultInput.text = str(p2)
+
+            p3 = 0
+            self.result2Input.text = str(p3)
+        else:
+            self.manager.current = 'Screen 5'
     
 
 class FifthScreen(Screen):
@@ -152,16 +182,7 @@ class FifthScreen(Screen):
     def before(self):
         global name
         global age
-        self.instructionsLbl.text = name + '-' + age
-
-
-
-
-
-
-
-
-        
+        self.instructionsLbl.text = name + '-' + str(age)
 
 class MyApp(App):
     def build(self):
