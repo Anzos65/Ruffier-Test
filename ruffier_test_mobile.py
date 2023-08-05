@@ -7,6 +7,7 @@ from kivy.uix.textinput import TextInput
 
 from instructions import txt_instruction, txt_test1, txt_test2, txt_test3, txt_sits
 from seconds import Seconds
+from ruffiertest import test
 
 age = '7'
 name = ''
@@ -79,6 +80,7 @@ class SecondScreen(Screen):
 
         resultLabel = Label(text = 'Enter the result:', halign = 'right')
         self.resultInput = TextInput(multiline = False)
+        self.resultInput.set_disabled(True)
 
         resultLayout = BoxLayout(size_hint=(0.8, None), height = '30sp')
         resultLayout.add_widget(resultLabel)
@@ -134,6 +136,10 @@ class ThirdScreen(Screen):
 class FourthScreen(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.next_screen = False
+        self.lbl_sec = Seconds(15)
+        self.lbl_sec.bind(done=self.sec_finished)
+        self.stage = 0
 
         instructionsLbl = Label(text = txt_test3)
         self.nextButton = Button(text = 'Finalize', size_hint = (0.3, 0.2), pos_hint = {'center_x':0.5})
@@ -141,9 +147,13 @@ class FourthScreen(Screen):
 
         resultLabel = Label(text = 'Result:', halign = 'right')
         self.resultInput = TextInput(multiline = False)
+        self.resultInput.set_disabled(True)
 
         result2Label = Label(text = 'Result after rest:', halign = 'right')
         self.result2Input = TextInput(multiline = False)
+        self.result2Input.set_disabled(True)
+
+        self.info_lbl = Label(text = "Count your pulse", halign = 'right')
 
         mainLayout = BoxLayout(orientation = 'vertical', padding = 8, spacing = 8)
         resultLayout = BoxLayout(size_hint=(0.8, None), height = '30sp')
@@ -156,11 +166,31 @@ class FourthScreen(Screen):
         result2Layout.add_widget(self.result2Input)
 
         mainLayout.add_widget(instructionsLbl)
+        mainLayout.add_widget(self.info_lbl)
+        mainLayout.add_widget(self.lbl_sec)
         mainLayout.add_widget(resultLayout)
         mainLayout.add_widget(result2Layout)
         mainLayout.add_widget(self.nextButton)
 
         self.add_widget(mainLayout)
+
+    def sec_finished(self, *args):
+        if self.lbl_sec.done:
+            if self.stage == 0:
+                self.stage = 1
+                self.lbl_sec.restart(30)
+                self.resultInput.set_disabled(False)
+                self.info_lbl.text = "Take a rest"
+            elif self.stage == 1:
+                self.stage = 2
+                self.lbl_sec.restart(15)
+                self.info_lbl.text = "Count your pulse"
+            elif self.stage == 2:
+                self.result2Input.set_disabled(False)
+                self.nextButton.text = "Complete"
+                self.info_lbl.text = "Complete"
+                self.next_screen = True
+                self.nextButton.set_disabled(False)
     
     def next(self):
         global p2
@@ -168,16 +198,17 @@ class FourthScreen(Screen):
 
         p2 = check_int(self.resultInput.text)
         p3 = check_int(self.result2Input.text)
-
-        if p2 == False or p3 == False or p2 <= 0 or p3 <= 0:
-            p2 = 0
-            self.resultInput.text = str(p2)
-
-            p3 = 0
-            self.result2Input.text = str(p3)
+        if not self.next_screen:
+            self.nextButton.set_disabled(True)
+            self.lbl_sec.start()
         else:
-            self.manager.current = 'Screen 5'
-    
+            if p2 == False or p3 == False or p2 <= 0 or p3 <= 0:
+                p2 = 0
+                self.resultInput.text = str(p2)
+                p3 = 0
+                self.result2Input.text = str(p3)
+            else:
+                self.manager.current = 'Screen 5'
 
 class FifthScreen(Screen):
     def __init__(self, **kwargs):
@@ -197,7 +228,7 @@ class FifthScreen(Screen):
     def before(self):
         global name
         global age
-        self.instructionsLbl.text = name + '-' + str(age)
+        self.instructionsLbl.text = name + '\n' + test(p1,p2,p3,age)
 
 class MyApp(App):
     def build(self):
